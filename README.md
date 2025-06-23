@@ -2,6 +2,10 @@
 
 A modern clinic management system built with Ruby on Rails, featuring patient management, role-based access control, and a responsive UI.
 
+## Live Demo
+🌐 [Visit HealthSync](https://ruby-rails-clinic.onrender.com)
+
+
 ## Features
 
 - 🏥 Patient Management
