@@ -1,100 +1,126 @@
-# Clinic Portal - Ruby on Rails
+# HealthSync - Clinic Management System
 
-This project is a Ruby on Rails application for a clinic portal.
+A modern clinic management system built with Ruby on Rails, featuring patient management, role-based access control, and a responsive UI.
 
-## Project Setup 
+## Features
 
-### 1. Prerequisites
-- **Ruby** (version 3.2+ recommended)
-- **Rails** (version 8+)
-- **PostgreSQL** (for database)
-- **Node.js** and **Yarn** (for JavaScript and assets, if needed)
-- **Git**
+- 🏥 Patient Management
+- 👥 Role-based Access (Doctor/Receptionist)
+- 📊 Dashboard with Analytics
+- 🔍 Patient Search
+- 📱 Responsive Design
 
-### 2. Getting Started
+## Prerequisites
 
-#### a. Clone the Repository
-```bash
-git clone https://github.com/AnjaneyuluChinni/Ruby-Rails-Clinic.git
-cd Ruby-Rails-Clinic/clinic_portal
-```
+- Ruby 3.4.4
+- Rails 8.0.2
+- PostgreSQL
+- Node.js & Yarn
 
-#### b. Install Dependencies
-```bash
-bundle install
-```
-If you use Yarn for JS dependencies:
-```bash
-yarn install
-```
+## Local Development Setup
 
-#### c. Set Up Database
-- Make sure PostgreSQL is running.
-- Create and migrate the database:
-```bash
-rails db:create
-rails db:migrate
-```
-- (Optional) Seed the database:
-```bash
-rails db:seed
-```
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/yourusername/clinic-portal.git
+   cd clinic-portal
+   ```
 
-#### d. Master Key & Credentials
-- Ensure you have `config/master.key` in place. If missing, ask the project owner for it.
-- This is required to decrypt `config/credentials.yml.enc`.
+2. **Install dependencies**
+   ```bash
+   bundle install
+   yarn install
+   ```
 
-#### e. Run the Rails Server
-```bash
-rails server
-```
-- Visit [http://localhost:3000](http://localhost:3000) in your browser.
+3. **Setup database**
+   ```bash
+   rails db:create
+   rails db:migrate
+   rails db:seed
+   ```
 
-### 3. Running Tests
-- To run all tests:
-```bash
-rails test
-```
-- System tests:
-```bash
-rails test:system
-```
+4. **Start the server**
+   ```bash
+   rails server
+   ```
 
-### 4. Useful Development Commands
-- Start a Rails console:
-  ```bash
-  rails console
-  ```
-- Run a specific migration:
-  ```bash
-  rails db:migrate:up VERSION=xxxxxx
-  ```
-- Rollback last migration:
-  ```bash
-  rails db:rollback
-  ```
+5. **Visit http://localhost:3000**
 
-### 5. Linting & Security (Optional)
-- Run Rubocop:
-  ```bash
-  bundle exec rubocop
-  ```
-- Run Brakeman (security):
-  ```bash
-  bundle exec brakeman
-  ```
-
-  
-Use these credentials to log in as different roles for testing/demo purposes:
+## Test Users
 
 - **Receptionist**
-  - Email: `receptionist@gmail.com`
-  - Password: `Rec3pt!on1st2024$`
+  - Email: receptionist@gmail.com
+  - Password: Rec3pt!on1st2024$
 
 - **Doctor**
-  - Email: `doctor@gmail.com`
-  - Password: `D0ct0r$ecure2024!`
+  - Email: doctor@gmail.com
+  - Password: D0ct0r$ecure2024!
 
----
+## Deployment on Render
 
-This project is a Ruby on Rails application for a clinic portal.
+### 1. **Setup PostgreSQL Database**
+- Go to Render Dashboard
+- Create a new PostgreSQL database
+- Note down the internal and external database URLs
+
+### 2. **Configure Web Service**
+- Connect your GitHub repository
+- Choose Ruby as the environment
+- Set build command:
+  ```bash
+  bundle install && bundle exec rails assets:precompile && bundle exec rails assets:clean && bundle exec rails db:migrate
+  ```
+- Set start command:
+  ```bash
+  bundle exec puma -C config/puma.rb
+  ```
+
+### 3. **Environment Variables**
+Set the following in Render dashboard:
+- `RAILS_MASTER_KEY`: Your master key from config/master.key
+- `DATABASE_URL`: Your Render PostgreSQL URL
+- `RAILS_ENV`: production
+- `RAILS_HOST`: Your app's domain (e.g., your-app.onrender.com)
+
+### 4. **Deploy**
+- Commit and push your changes to GitHub
+- Render will automatically deploy your application
+- First deployment may take 5-10 minutes
+
+### 5. **Post-Deployment**
+- Run database migrations:
+  ```bash
+  rails db:migrate
+  ```
+- Seed the database (if needed):
+  ```bash
+  rails db:seed
+  ```
+
+## Troubleshooting
+
+### Common Issues
+
+1. **Database Connection**
+   - Verify DATABASE_URL is correct
+   - Check database migrations status
+
+2. **Asset Compilation**
+   - Run `rails assets:precompile` locally to check for errors
+   - Verify all JavaScript and CSS files are properly included
+
+3. **Role/Authentication Issues**
+   - Clear browser cache and cookies
+   - Re-login to refresh session
+   - Verify user roles in database
+
+## Contributing
+
+1. Fork the repository
+2. Create your feature branch
+3. Commit your changes
+4. Push to the branch
+5. Create a Pull Request
+
+## License
+
+This project is licensed under the MIT License.
