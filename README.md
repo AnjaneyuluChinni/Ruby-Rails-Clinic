@@ -100,9 +100,6 @@ Use these credentials to log in as different roles for testing/demo purposes:
 This project is a Ruby on Rails application for a clinic portal.
 
 ## Project Setup & Development
-// ... existing code ...
-
----
 
 ## Deployment
 See the section below for deploying to Render.
