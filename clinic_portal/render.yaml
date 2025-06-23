@@ -1,7 +1,13 @@
+databases:
+  - name: clinic_portal_db
+    databaseName: clinic_portal_production
+    user: clinic_portal_user
+
 services:
   - type: web
     name: clinic-portal
     env: ruby
+    rootDir: clinic_portal
     plan: free # or "starter"
     buildCommand: "bundle install && bundle exec rails assets:precompile && bundle exec rails assets:clean && bundle exec rails db:migrate"
     startCommand: "bundle exec puma -C config/puma.rb"
