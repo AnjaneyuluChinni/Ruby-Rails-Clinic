@@ -146,7 +146,7 @@
         <nav class="nav flex-column">
           <a class="nav-link active" href="<%= authenticated_root_path %>"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
           <a class="nav-link" href="<%= patients_path %>"><i class="fas fa-users"></i> Patients</a>
-          <% if current_user.role == "receptionist" % >
+          <% if current_user.role == "receptionist" %>
             <a class="nav-link" href="<%= new_patient_path %>"><i class="fas fa-user-plus"></i> Add Patient</a>
           <% end %>
         </nav>
