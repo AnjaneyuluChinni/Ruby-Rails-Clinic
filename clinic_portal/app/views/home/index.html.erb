@@ -1,0 +1,64 @@
+<% if current_user.role == "doctor" %>
+  
+  <div class="mb-4">
+    <h1>Doctor's Dashboard</h1>
+    <p class="text-secondary">Welcome back, Dr. <%= current_user.email %>.</p>
+  </div>
+
+  <div class="card shadow-sm border-0">
+    <div class="card-header bg-white">
+      <h5 class="mb-0">Patient Registrations</h5>
+      <p class="card-text text-muted small">Number of new patients over the past days.</p>
+    </div>
+    <div class="card-body">
+      <%= line_chart @patients_by_day, 
+          height: "400px", 
+          library: {
+            colors: ["#00B894"],
+            plugins: {
+              legend: { display: false }
+            },
+            scales: {
+              y: { grid: { drawBorder: false } },
+              x: { grid: { display: false } }
+            }
+          }
+      %>
+    </div>
+  </div>
+
+<% elsif current_user.role == "receptionist" %>
+
+  <div class="mb-4">
+    <h1>Receptionist Dashboard</h1>
+    <p class="text-secondary">Welcome! Manage patient records efficiently.</p>
+  </div>
+
+  <div class="row g-4">
+    <div class="col-md-6 col-lg-4">
+      <div class="card h-100 border-0 shadow-sm text-center">
+        <div class="card-body">
+          <div class="display-4 text-primary mb-3">
+            <i class="fas fa-users"></i>
+          </div>
+          <h5 class="card-title">View All Patients</h5>
+          <p class="card-text">Browse and search the complete list of registered patients.</p>
+          <%= link_to "View Patients", patients_path, class: "btn btn-outline-primary" %>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-4">
+      <div class="card h-100 border-0 shadow-sm text-center">
+        <div class="card-body">
+          <div class="display-4" style="color: #00B894;">
+             <i class="fas fa-user-plus"></i>
+          </div>
+          <h5 class="card-title">Register New Patient</h5>
+          <p class="card-text">Add a new patient to the system using the registration form.</p>
+          <%= link_to "Add Patient", new_patient_path, class: "btn btn-primary" %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<% end %>

@@ -1,0 +1,22 @@
+<% content_for :title, "Editing patient" %>
+
+<div class="row justify-content-center">
+  <div class="col-lg-8">
+    <div class="card shadow-sm border-0">
+      <div class="card-header bg-white">
+        <h3 class="mb-0">Editing: <%= @patient.name %></h3>
+        <p class="text-secondary small mb-0">Update the patient's details below.</p>
+      </div>
+      <div class="card-body p-4">
+        <%= render "form", patient: @patient %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<br>
+
+<div>
+  <%= link_to "Show this patient", @patient %> |
+  <%= link_to "Back to patients", patients_path %>
+</div>

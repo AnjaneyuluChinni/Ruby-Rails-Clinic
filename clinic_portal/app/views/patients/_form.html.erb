@@ -1,0 +1,54 @@
+<%= form_with(model: patient, local: true, html: { class: "needs-validation", novalidate: true }) do |form| %>
+  <% if patient.errors.any? %>
+    <div class="alert alert-danger">
+      <h5><%= pluralize(patient.errors.count, "error") %> prohibited this patient from being saved:</h5>
+      <ul>
+        <% patient.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="row g-3">
+    <div class="col-12">
+      <div class="form-floating">
+        <%= form.text_field :name, class: "form-control", placeholder: "Full Name" %>
+        <%= form.label :name, "Full Name" %>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="form-floating">
+        <%= form.number_field :age, class: "form-control", placeholder: "Age" %>
+        <%= form.label :age %>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="form-floating">
+        <%= form.select :gender, ['Male', 'Female', 'Other'], { prompt: 'Select Gender' }, class: "form-select" %>
+        <%= form.label :gender %>
+      </div>
+    </div>
+
+    <div class="col-12">
+      <div class="form-floating">
+        <%= form.text_field :address, class: "form-control", placeholder: "Address" %>
+        <%= form.label :address %>
+      </div>
+    </div>
+    
+    <div class="col-12">
+      <div class="form-floating">
+        <%= form.text_field :phone, class: "form-control", placeholder: "Phone Number" %>
+        <%= form.label :phone, "Phone Number" %>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-4 d-flex justify-content-end">
+    <%= link_to "Cancel", patients_path, class: "btn btn-outline-secondary me-2" %>
+    <%= form.submit "Save Patient", class: "btn btn-primary" %>
+  </div>
+<% end %>

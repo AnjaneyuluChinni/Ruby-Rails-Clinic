@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HealthSync - Clinic Management</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+    <%= javascript_include_tag "chartkick" %>
+    <%= javascript_include_tag "Chart.bundle" %>
+
+    <!-- Custom Styles -->
+    <style>
+      :root {
+        --primary-color: #00B894; /* Teal Green */
+        --accent-color: #0984E3; /* Blue */
+        --background-color: #F8F9FA;
+        --text-color: #2D3436;
+        --delete-color: #D63031;
+        --card-bg: #FFFFFF;
+        --font-heading: 'Poppins', sans-serif;
+        --font-body: 'Inter', sans-serif;
+      }
+
+      body {
+        font-family: var(--font-body);
+        color: var(--text-color);
+        background-color: var(--background-color);
+        display: grid;
+        grid-template-columns: 260px 1fr;
+        grid-template-rows: 1fr;
+        height: 100vh;
+        overflow: hidden;
+      }
+
+      body.guest-layout {
+        display: block; /* Revert for login page */
+      }
+
+      h1, h2, h3, h4, h5 { font-family: var(--font-heading); }
+
+      .sidebar {
+        background-color: var(--card-bg);
+        box-shadow: 0 0 40px rgba(0,0,0,0.05);
+        display: flex;
+        flex-direction: column;
+        padding: 1.5rem;
+        border-right: 1px solid #e9ecef;
+      }
+
+      .sidebar .logo {
+        font-family: var(--font-heading);
+        font-size: 1.5rem;
+        color: var(--accent-color);
+        margin-bottom: 2rem;
+        text-align: center;
+      }
+
+      .sidebar .nav-link {
+        color: #555;
+        font-weight: 500;
+        padding: 0.8rem 1rem;
+        border-radius: 0.5rem;
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+        transition: all 0.2s ease;
+      }
+      .sidebar .nav-link i {
+        width: 20px;
+        margin-right: 1rem;
+      }
+      .sidebar .nav-link:hover, .sidebar .nav-link.active {
+        background-color: var(--primary-color);
+        color: #fff;
+      }
+
+      .sidebar .user-info {
+        margin-top: auto;
+        text-align: center;
+      }
+      .sidebar .user-info .badge {
+        background-color: var(--accent-color);
+      }
+
+      .content-wrapper {
+        display: flex;
+        flex-direction: column;
+        overflow-y: auto; /* Make this area scrollable */
+      }
+      
+      .main-header {
+        background: var(--card-bg);
+        padding: 0 2rem;
+        height: 70px;
+        display: flex;
+        align-items: center;
+        border-bottom: 1px solid #e9ecef;
+        flex-shrink: 0;
+      }
+
+      .main-content-inner {
+        padding: 2rem;
+        flex-grow: 1;
+      }
+      
+      @media (max-width: 992px) {
+        body {
+          grid-template-columns: 1fr; /* Full width for content */
+        }
+        .sidebar {
+          position: fixed;
+          width: 260px;
+          top: 0;
+          left: -260px;
+          height: 100%;
+          z-index: 1050;
+          transition: left 0.3s ease-in-out;
+        }
+        body.sidebar-open .sidebar {
+          left: 0;
+        }
+        .main-header { padding: 0 1rem; }
+        .main-content-inner { padding: 1rem; }
+      }
+    </style>
+  </head>
+
+  <body class="<%= 'guest-layout' unless user_signed_in? %>">
+    <% if user_signed_in? %>
+      <aside class="sidebar">
+        <div class="logo">
+          <i class="fas fa-heart-pulse"></i> HealthSync
+        </div>
+        <nav class="nav flex-column">
+          <a class="nav-link active" href="<%= authenticated_root_path %>"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+          <a class="nav-link" href="<%= patients_path %>"><i class="fas fa-users"></i> Patients</a>
+          <% if current_user.role == "receptionist" %>
+            <a class="nav-link" href="<%= new_patient_path %>"><i class="fas fa-user-plus"></i> Add Patient</a>
+          <% end %>
+        </nav>
+        <div class="user-info">
+            <span class="badge rounded-pill mb-2"><%= current_user.role.capitalize %></span>
+            <p class="small mb-2"><%= current_user.email %></p>
+            <%= button_to "Logout", destroy_user_session_path, method: :delete, class: "btn btn-outline-secondary btn-sm" %>
+        </div>
+      </aside>
+    <% end %>
+
+    <div class="content-wrapper">
+      <% if user_signed_in? %>
+        <header class="main-header">
+          <button class="btn btn-light d-lg-none me-3" id="sidebar-toggle">
+            <i class="fas fa-bars"></i>
+          </button>
+          <h5 class="mb-0 d-none d-lg-block">Welcome to HealthSync</h5>
+        </header>
+      <% end %>
+      
+      <main class="main-content-inner">
+        <% if notice %>
+          <div class="alert alert-success"><%= notice %></div>
+        <% end %>
+        <% if alert %>
+          <div class="alert alert-danger"><%= alert %></div>
+        <% end %>
+        <%= yield %>
+      </main>
+    </div>
+
+    <script>
+      const toggleButton = document.getElementById('sidebar-toggle');
+      if (toggleButton) {
+        toggleButton.addEventListener('click', () => {
+          document.body.classList.toggle('sidebar-open');
+        });
+      }
+    </script>
+  </body>
+</html>

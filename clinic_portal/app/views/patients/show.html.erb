@@ -1,0 +1,48 @@
+<p style="color: green"><%= notice %></p>
+
+<div class="row">
+  <div class="col-lg-4">
+    <div class="card shadow-sm border-0 mb-4">
+      <div class="card-body text-center">
+        <i class="fas fa-user-circle fa-6x text-secondary mb-3"></i>
+        <h3 class="mb-1"><%= @patient.name %></h3>
+        <p class="text-muted"><%= @patient.gender %>, <%= @patient.age %> years old</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-8">
+    <div class="card shadow-sm border-0">
+      <div class="card-header bg-white">
+        <h5 class="mb-0">Patient Details</h5>
+      </div>
+      <div class="card-body">
+        <dl class="row">
+          <dt class="col-sm-3">Full Name</dt>
+          <dd class="col-sm-9"><%= @patient.name %></dd>
+
+          <dt class="col-sm-3">Age</dt>
+          <dd class="col-sm-9"><%= @patient.age %></dd>
+
+          <dt class="col-sm-3">Gender</dt>
+          <dd class="col-sm-9"><%= @patient.gender %></dd>
+
+          <dt class="col-sm-3">Address</dt>
+          <dd class="col-sm-9"><%= @patient.address %></dd>
+
+          <dt class="col-sm-3">Phone</dt>
+          <dd class="col-sm-9"><%= @patient.phone %></dd>
+          
+          <dt class="col-sm-3">Registered On</dt>
+          <dd class="col-sm-9"><%= @patient.created_at.strftime("%A, %B %d, %Y") %></dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="mt-4">
+  <%= link_to "Back to Patients", patients_path, class: "btn btn-outline-secondary" %>
+  <% if current_user.role == "receptionist" %>
+    <%= link_to "Edit Patient", edit_patient_path(@patient), class: "btn btn-primary" %>
+  <% end %>
+</div>
