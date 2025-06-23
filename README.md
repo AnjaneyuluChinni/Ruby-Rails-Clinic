@@ -84,6 +84,24 @@ rails test:system
   bundle exec brakeman
   ```
 
+  
+Use these credentials to log in as different roles for testing/demo purposes:
+
+- **Receptionist**
+  - Email: `receptionist@gmail.com`
+  - Password: `Rec3pt!on1st2024$`
+
+- **Doctor**
+  - Email: `doctor@gmail.com`
+  - Password: `D0ct0r$ecure2024!`
+
+---
+
+This project is a Ruby on Rails application for a clinic portal.
+
+## Project Setup & Development
+// ... existing code ...
+
 ---
 
 ## Deployment
